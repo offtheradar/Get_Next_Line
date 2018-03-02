@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/28 18:48:05 by ysibous           #+#    #+#             */
-/*   Updated: 2018/03/01 16:00:34 by ysibous          ###   ########.fr       */
+/*   Created: 2018/02/21 11:47:30 by ysibous           #+#    #+#             */
+/*   Updated: 2018/02/24 20:06:33 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# include "libft.h"
-# define GET_NEXT_LINE_H
-# define BUFFER 4096
+#include "libft.h"
 
-/*
-** The t_file data type holds information on the file.
-** line_content - holds the file info
-** next_line_pos - holds the index of the next '\n' character
-** fd is the file descriptor
-*/
+int		ft_strncmp(const char *s1, const char *s2, unsigned int n)
+{
+	int i;
 
-static int		read_file(int fd, char **file_holder);
-
-int				get_next_line(const int fd, char **line);
-# endif
+	i = 0;
+	while (*s1 == *s2 && *s1 && *s2 && i < (int)n - 1)
+	{
+		s1++;
+		s2++;
+		i++;
+	}
+	if (n)
+		return (*(unsigned char*)s1 - *(unsigned char*)s2);
+	return (0);
+}

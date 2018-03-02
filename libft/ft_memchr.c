@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/28 18:48:05 by ysibous           #+#    #+#             */
-/*   Updated: 2018/03/01 16:00:34 by ysibous          ###   ########.fr       */
+/*   Created: 2018/02/21 17:01:28 by ysibous           #+#    #+#             */
+/*   Updated: 2018/02/23 20:30:42 by ysibous          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# include "libft.h"
-# define GET_NEXT_LINE_H
-# define BUFFER 4096
+#include "libft.h"
 
-/*
-** The t_file data type holds information on the file.
-** line_content - holds the file info
-** next_line_pos - holds the index of the next '\n' character
-** fd is the file descriptor
-*/
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	char	*s_cpy;
+	size_t	i;
 
-static int		read_file(int fd, char **file_holder);
-
-int				get_next_line(const int fd, char **line);
-# endif
+	i = 0;
+	s_cpy = (char *)s;
+	while (i < n)
+	{
+		if (s_cpy[i] == (char)c)
+			return ((void *)(&s_cpy[i]));
+		i++;
+	}
+	return (NULL);
+}

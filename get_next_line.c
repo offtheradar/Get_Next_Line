@@ -6,36 +6,35 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 10:36:40 by ysibous           #+#    #+#             */
-/*   Updated: 2018/03/01 11:41:49 by ysibous          ###   ########.fr       */
+/*   Updated: 2018/03/01 16:00:41 by ysibous          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char		**read_file(int fd)
+static int		**read_file(int fd, char **file_holder)
 {
-	char	*str;
 	char	*tmp;
+	int		read_ret_val;
 	size_t	i;
 
 	i = 0;
-	str = malloc(sizeof(char) * 1);
-	tmp = malloc(sizeof(char) * 1);
-	while (read(fd, &str[i], BUFF_SIZE) == 1)
+	tmp = malloc(sizeof(char) * BUFF_SIZE);
+	while ((read_ret_val = read(fd, tmp, BUFF_SIZE)) > 0)
 	{
-		free(tmp);
-		tmp = ft_strnew(i + 1);
-		tmp = ft_strncpy(tmp, str, i + 1);
-		free(str);
-		str = ft_strnew(i + 1);
-		str = ft_strncpy(str, tmp, i + 1);
-		i++;
+		if (file_holder[fd])
+			file_holder[fd] = ft_strjoin(file_holder[fd], tmp);
+		else
+			file_holder[fd] = ft_strdup(tmp);
+		ft_strclr(tmp);
 	}
 	free(tmp);
-	return (str);
+	if (read_ret_val < 0)
+		return (-1);
+	return (0);
 }
 
-static int		get_next_line_pos(t_file *file)
+static int		fetch_next_line_pos(t_file *file)
 {
 	size_t start;
 	size_t i;

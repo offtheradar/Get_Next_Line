@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/28 18:48:05 by ysibous           #+#    #+#             */
-/*   Updated: 2018/03/01 16:00:34 by ysibous          ###   ########.fr       */
+/*   Created: 2018/02/21 13:57:03 by ysibous           #+#    #+#             */
+/*   Updated: 2018/02/24 19:05:23 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# include "libft.h"
-# define GET_NEXT_LINE_H
-# define BUFFER 4096
+#include "libft.h"
 
-/*
-** The t_file data type holds information on the file.
-** line_content - holds the file info
-** next_line_pos - holds the index of the next '\n' character
-** fd is the file descriptor
-*/
+char	*ft_strrchr(const char *s, int c)
+{
+	char	*ptr;
+	char	*s_new;
 
-static int		read_file(int fd, char **file_holder);
-
-int				get_next_line(const int fd, char **line);
-# endif
+	s_new = (char*)s;
+	ptr = 0;
+	while (*s_new)
+	{
+		if (*s_new == c)
+			ptr = s_new;
+		s_new++;
+	}
+	if (*s_new == c)
+		return (s_new);
+	return (ptr);
+}

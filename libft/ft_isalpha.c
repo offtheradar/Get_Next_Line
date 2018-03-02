@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/28 18:48:05 by ysibous           #+#    #+#             */
-/*   Updated: 2018/03/01 16:00:34 by ysibous          ###   ########.fr       */
+/*   Created: 2018/02/21 11:09:56 by ysibous           #+#    #+#             */
+/*   Updated: 2018/02/24 20:26:57 by adubugra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# include "libft.h"
-# define GET_NEXT_LINE_H
-# define BUFFER 4096
+static int		ft_islower(int c)
+{
+	return ((c >= 'a' && c <= 'z') ? 1 : 0);
+}
 
-/*
-** The t_file data type holds information on the file.
-** line_content - holds the file info
-** next_line_pos - holds the index of the next '\n' character
-** fd is the file descriptor
-*/
+static int		ft_isupper(int c)
+{
+	return ((c >= 'A' && c <= 'Z') ? 1 : 0);
+}
 
-static int		read_file(int fd, char **file_holder);
-
-int				get_next_line(const int fd, char **line);
-# endif
+int				ft_isalpha(int c)
+{
+	return ((ft_islower(c) || ft_isupper(c)) ? 1 : 0);
+}
