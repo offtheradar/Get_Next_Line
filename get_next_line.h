@@ -14,6 +14,7 @@
 # include "libft.h"
 # define GET_NEXT_LINE_H
 # define BUFFER 4096
+# define MAX_FD 4867
 
 /*
 ** The t_file data type holds information on the file.
