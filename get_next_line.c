@@ -6,24 +6,26 @@
 /*   By: ysibous <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/01 10:36:40 by ysibous           #+#    #+#             */
-/*   Updated: 2018/03/01 16:00:41 by ysibous          ###   ########.fr       */
+/*   Updated: 2018/03/05 17:39:09 by ysibous          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int		**read_file(int fd, char **file_holder)
+static int		read_file(int fd, char **file_holder)
 {
 	char	*tmp;
 	int		read_ret_val;
-	size_t	i;
 
-	i = 0;
-	tmp = malloc(sizeof(char) * BUFF_SIZE);
+	tmp = ft_strnew(BUFF_SIZE);
+	read_ret_val = 0;
 	while ((read_ret_val = read(fd, tmp, BUFF_SIZE)) > 0)
 	{
 		if (file_holder[fd])
+		{
+			free(file_holder[fd]);
 			file_holder[fd] = ft_strjoin(file_holder[fd], tmp);
+		}
 		else
 			file_holder[fd] = ft_strdup(tmp);
 		ft_strclr(tmp);
@@ -34,40 +36,37 @@ static int		**read_file(int fd, char **file_holder)
 	return (0);
 }
 
-static int		fetch_next_line_pos(t_file *file)
+static int		fetch_next_line(char **file_holder, char **line)
 {
-	size_t start;
 	size_t i;
+	size_t j;
 
 	i = 0;
-	start = file->beginning_of_line_pos;
-	while ((file->content)[start + i] != '\n')
+	j = 0;
+	if ((**file_holder) == '\0' || (*file_holder) == NULL)
+		return (0);
+	while ((*file_holder)[i] != '\n' && (*file_holder)[i])
 		i++;
-	return (i);
-}
-
-static t_file	**create_or_find_t_file(t_list **lst, int fd)
-{
-	t_list	*tmp;
-	t_file	*file;
-
-	tmp = *lst;
-	while (tmp)
-	{
-		if ((t_file *)((tmp->content)->fd) == fd)
-			return ((t_file *)(tmp->content));
-		tmp = tmp->next;
-	}
-	tmp->content = read_file(fd);
-	tmp->beginning_of_line_pos = 0;
-	tmp->next_line_pos = get_next_line_pos(tmp);
-	tmp->fd = fd;
+	*line = ft_strnew(i);
+	ft_strncpy(*line, *file_holder, i);
+	(*line)[i] = '\0';
+	if ((*file_holder)[i] == '\n')
+		i++;
+	while ((*file_holder)[i])
+		(*file_holder)[j++] = (*file_holder)[i++];
+	(*file_holder)[j] = '\0';
+	return (1);
 }
 
 int				get_next_line(const int fd, char **line)
 {
-	static	t_list;
+	static char	*file_holder[MAX_FD];
+	int			return_val;
 
-	if (fd < 0 || !line || BUFF_SIZE < 0)
+	if (fd < 0 || !line || BUFF_SIZE < 0 ||
+			(return_val = read_file(fd, file_holder) == -1))
 		return (-1);
+	if (fetch_next_line(&file_holder[fd], line) == 0)
+		return (0);
+	return (1);
 }
